@@ -16783,37 +16783,6 @@ GSI.Utils.infoToLayer = function( info, noFinishMove )
  L.Class
  - GSI.MapMenu（地図、機能メニュー）
  ************************************************************************/
-		// 試験メニュー
-		var ctrlSetting = this._queryParams.getControlSetting();
-		var viewSetting = this._queryParams.getViewSetting();
-		var map = this._mainMap.getMap();
-		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
-			
-			visible : ctrlSetting.testMenu.visible,
-			position : 'left',
-			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
-			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
-			getCheckState : L.bind(function( id, defaultState )
-			{
-				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
-				else defaultState;
-			},this),
-			onCheckItemClick :  L.bind(function( id, checked )
-			{
-				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
-			},this),
-
-			onMenuItemClick :  L.bind(function( id )
-			{
-				var dialogManager = this._mainMap._dialogManager;
-				var map = this._mainMap.getMap();
-				var windowSize = this._mainMap._dialogManager.getScreenSize();
-					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
-					this._geoLocation.getLocation();
-			}, this )
-		});
-
-
 GSI.MapMenuList = [];
 
 GSI.MapMenu = L.Evented.extend( {
@@ -29434,10 +29403,10 @@ GSI.GSIMaps = L.Class.extend( {
 		},this );
 		this._onoffObjects[ CONFIG.PARAMETERNAMES.FOOTER ] = { obj : this._footerManager    , setter : 'setVisible', getter  : 'getVisible' };
 
-		// 試験メニュー
-/*		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
+		// 現在地メニュー
+		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
-			position : 'left',
+			position : 'right',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
 			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
 			getCheckState : L.bind(function( id, defaultState )
@@ -29459,12 +29428,12 @@ GSI.GSIMaps = L.Class.extend( {
 					this._geoLocation.getLocation();
 			}, this )
 		});
-*/
 
-		// 現在地メニュー
+
+		// 試験メニュー
 		this._geolMenu = new GSI.MapMenu(this, map, CONFIG.GEOLMENU, {
 			visible : ctrlSetting.geolMenu.visible,
-			position : 'right',
+			position : 'left',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
 			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
 			getCheckState : L.bind(function( id, defaultState )
@@ -29482,8 +29451,38 @@ GSI.GSIMaps = L.Class.extend( {
 				var dialogManager = this._mainMap._dialogManager;
 				var map = this._mainMap.getMap();
 				var windowSize = this._mainMap._dialogManager.getScreenSize();
-					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
-					this._geoLocation.getLocation();
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', '../sample1.geojson', false);
+					xhr.send(null);
+					var sampledata = JSON.parse(xhr.responseText);
+					var sampleLayer = L.geoJson(sampledata, {
+					  pointToLayer: function (feature, latlng) {
+					    var s = geojson_style(feature.properties);
+					    if(feature.properties['_markerType']=='Icon'){
+					      var myIcon = L.icon(s);
+					      return L.marker(latlng, {icon: myIcon});
+					    }
+					    if(feature.properties['_markerType']=='DivIcon'){
+					      var myIcon = L.divIcon(s);
+					      return L.marker(latlng, {icon: myIcon});
+					    }
+					    if(feature.properties['_markerType']=='Circle'){
+					      return L.circle(latlng,feature.properties['_radius'],s);
+					    }
+					    if(feature.properties['_markerType']=='CircleMarker'){
+					      return L.circleMarker(latlng,s);
+					    }
+					  },
+					  style: function (feature) {
+					    if(!feature.properties['_markerType']){
+					      var s = geojson_style(feature.properties);
+					      return s;
+					    }
+					  },
+					  onEachFeature: function (feature, layer) {
+					    layer.bindPopup(popup_properties(feature.properties));
+					  }
+					});
 			}, this )
 		});
 		
