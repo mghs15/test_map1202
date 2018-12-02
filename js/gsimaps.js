@@ -28869,7 +28869,7 @@ GSI.MapManager = L.Class.extend( {
 	    );
 	    
 	    this._footer.setViewListDialog( this._viewListDialog );
-	},
+	},geo
 	
 	// ベースマップ初期化
 	initializeBaseLayer : function(baseMap,baseMapGrayScale)
@@ -29421,9 +29421,13 @@ GSI.GSIMaps = L.Class.extend( {
 				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
 			},this),
 
-			
-			onMenuItemClick :  L.bind(function( id )
+			//ここから（試験）
+			onMenuItemClick :  L.bind(function( id ) 
 			{
+			$.getJSON("sample2.geojson", function (data) {
+			    L.geoJson(data).addTo(map);
+			});
+			/*
 			// 試験メニュー用関数
 			function geojson_style(prop) {
 			  var s = {};
@@ -29480,7 +29484,9 @@ GSI.GSIMaps = L.Class.extend( {
 					    layer.bindPopup(popup_properties(feature.properties));
 					  }
 					});
+					*/
 			}, this )
+			//ここまで（試験）
 		});
 
 
