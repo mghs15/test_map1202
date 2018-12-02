@@ -29407,6 +29407,7 @@ GSI.GSIMaps = L.Class.extend( {
 
 		// 試験メニュー
 		var test_show = false;
+		var sampleLayer = L.geoJson();
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
 			position : 'right',
@@ -29461,7 +29462,7 @@ GSI.GSIMaps = L.Class.extend( {
 					xhr.open('GET', './sample1.geojson', false);
 					xhr.send(null);
 					var sampledata = JSON.parse(xhr.responseText);
-					var sampleLayer = L.geoJson(sampledata, {
+					sampleLayer = L.geoJson(sampledata, {
 					  pointToLayer: function (feature, latlng) {
 					    var s = geojson_style(feature.properties);
 					    if(feature.properties['_markerType']=='Icon'){
@@ -29492,7 +29493,7 @@ GSI.GSIMaps = L.Class.extend( {
 					sampleLayer.addTo(map);
 					test_show = true;
 					}else{
-					map.removeLayer(sampleLayer);
+					sampleLayer.removeFrom(MAP);
 					}
 					
 			}, this )
