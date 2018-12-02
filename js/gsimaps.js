@@ -29420,7 +29420,9 @@ GSI.GSIMaps = L.Class.extend( {
 			{
 				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
 			},this),
-
+			
+			var test_show = false;
+			
 			//ここから（試験）
 			onMenuItemClick :  L.bind(function( id ) 
 			{
@@ -29453,7 +29455,6 @@ GSI.GSIMaps = L.Class.extend( {
 				var dialogManager = this._mainMap._dialogManager;
 				var map = this._mainMap.getMap();
 				var windowSize = this._mainMap._dialogManager.getScreenSize();
-				var test_show = false;
 
 					if (! test_show){
 					var xhr = new XMLHttpRequest();
