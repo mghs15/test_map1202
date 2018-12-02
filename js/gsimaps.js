@@ -29382,7 +29382,7 @@ GSI.GSIMaps = L.Class.extend( {
 		// 試験メニュー
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
-			position : 'topright',
+			position : 'right',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
 			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
 			getCheckState : L.bind(function( id, defaultState )
