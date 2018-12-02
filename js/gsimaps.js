@@ -29453,7 +29453,9 @@ GSI.GSIMaps = L.Class.extend( {
 				var dialogManager = this._mainMap._dialogManager;
 				var map = this._mainMap.getMap();
 				var windowSize = this._mainMap._dialogManager.getScreenSize();
+				var test_show = false;
 
+					if (! test_show){
 					var xhr = new XMLHttpRequest();
 					xhr.open('GET', './sample1.geojson', false);
 					xhr.send(null);
@@ -29487,6 +29489,9 @@ GSI.GSIMaps = L.Class.extend( {
 					  }
 					});
 					sampleLayer.addTo(map);
+					}else{
+					map.removeLayer(sampleLayer);
+					}
 					
 			}, this )
 			//ここまで（試験）
