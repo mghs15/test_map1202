@@ -8412,6 +8412,11 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		ul.append( item.li );
 		this._visibleFuncMenuCheck = item.checkbox;
 
+		// 機能ボタンを表示
+		item = __createItem( this,'試験ボタンを表示' );
+		ul.append( item.li );
+		this._visibleFuncMenuCheck = item.checkbox;
+
 		// コンテキストメニューを表示
 		item = __createItem( this,'コンテキストメニューを表示' );
 		ul.append( item.li );
