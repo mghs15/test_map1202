@@ -44565,5 +44565,5 @@ var sampleLayer = L.geoJson(sampledata, {
 });
 
 var overlays = {'サンプル': sampleLayer };
-L.control.layers(null, overlays,{position:'topright',collapsed:false}).addTo(this.map).css( {"z-index":100000} );
+L.control.layers(overlays).addTo(this.map).css( {"z-index":100000} );
 
