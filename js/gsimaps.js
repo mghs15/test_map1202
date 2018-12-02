@@ -29426,7 +29426,7 @@ GSI.GSIMaps = L.Class.extend( {
 				var windowSize = this._mainMap._dialogManager.getScreenSize();
 
 					var xhr = new XMLHttpRequest();
-					xhr.open('GET', '../sample1.geojson', false);
+					xhr.open('GET', './sample1.geojson', false);
 					xhr.send(null);
 					var sampledata = JSON.parse(xhr.responseText);
 					var sampleLayer = L.geoJson(sampledata, {
