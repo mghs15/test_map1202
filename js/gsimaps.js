@@ -44506,7 +44506,29 @@ $(document).ready( function(){
 	
 } );
 
-<script>
+
+/*181202追加*/
+
+function geojson_style(prop) {
+  var s = {};
+  for(name in prop) {
+    if(name.match(/^_/) && !name.match(/_markerType/)){
+      if( prop['_markerType']=='Circle' && name =='_radius'){continue;}
+      s[name.substr(1)]=prop[name];
+    }
+  }
+  return s;
+}
+function popup_properties(prop) {
+  var s = ''
+  for(name in prop) {
+    if(!name.match(/^_/)){
+      s += name + "：" + prop[name] + "<br>";
+    }
+  }
+  return s;
+}
+
 // スタイルつき GeoJSON読み込み
 // 「./sample1.geojson」の部分を適宜変更してください。
 var xhr = new XMLHttpRequest();
@@ -44542,7 +44564,6 @@ var sampleLayer = L.geoJson(sampledata, {
   }
 });
 
-L.control.scale({imperial: false}).addTo(map);
 var overlays = {'サンプル': sampleLayer };
 L.control.layers(null, overlays,{position:'topright',collapsed:false}).addTo(this.map);
-</script>
+
