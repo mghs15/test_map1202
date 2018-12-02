@@ -44507,7 +44507,7 @@ $(document).ready( function(){
 } );
 
 
-/*181202追加*/
+/*181202追加
 
 function geojson_style(prop) {
   var s = {};
@@ -44566,4 +44566,4 @@ var sampleLayer = L.geoJson(sampledata, {
 
 var overlays = {'サンプル': sampleLayer };
 L.control.layers(overlays).addTo(this.map).css( {"z-index":100000} );
-
+*/
