@@ -29670,10 +29670,8 @@ GSI.GSIMaps = L.Class.extend( {
 				var dialogManager = this._mainMap._dialogManager;
 				var map = this._mainMap.getMap();
 				var windowSize = this._mainMap._dialogManager.getScreenSize();
-				switch ( id )
-				{
-
-				}
+					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
+					this._geoLocation.getLocation();
 			}, this )
 		});
 		
