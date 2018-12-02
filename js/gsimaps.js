@@ -29494,6 +29494,7 @@ GSI.GSIMaps = L.Class.extend( {
 					test_show = true;
 					}else{
 					sampleLayer.removeFrom(map);
+					test_show = false;
 					}
 					
 			}, this )
