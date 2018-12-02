@@ -29464,7 +29464,7 @@ GSI.GSIMaps = L.Class.extend( {
 		// 現在地メニュー
 		this._geolMenu = new GSI.MapMenu(this, map, CONFIG.GEOLMENU, {
 			visible : ctrlSetting.geolMenu.visible,
-			position : 'left',
+			position : 'right',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
 			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
 			getCheckState : L.bind(function( id, defaultState )
