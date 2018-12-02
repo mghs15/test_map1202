@@ -455,6 +455,13 @@ CONFIG.MAPMENU = {
 };
 
 /************************************************************************
+ 試験：メニュー：情報
+ ************************************************************************/
+CONFIG.TESTMENU = {
+	title : '試験'
+};
+
+/************************************************************************
  設定：メニュー：機能
  ************************************************************************/
 CONFIG.FUNCMENU = {
@@ -8412,7 +8419,7 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		ul.append( item.li );
 		this._visibleFuncMenuCheck = item.checkbox;
 
-		// 機能ボタンを表示
+		// 試験ボタンを表示
 		item = __createItem( this,'試験ボタンを表示' );
 		ul.append( item.li );
 		this._visibleFuncMenuCheck = item.checkbox;
