@@ -459,7 +459,7 @@ CONFIG.MAPMENU = {
  試験：メニュー：情報
  ************************************************************************/
 CONFIG.TESTMENU = {
-	title : '試験'
+	title : '現在地'
 };
 
 /************************************************************************
@@ -29652,7 +29652,7 @@ GSI.GSIMaps = L.Class.extend( {
 		// 試験メニュー
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
-			position : 'topright',
+			position : 'right',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
 			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
 			getCheckState : L.bind(function( id, defaultState )
