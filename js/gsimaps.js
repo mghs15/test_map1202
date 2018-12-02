@@ -459,7 +459,7 @@ CONFIG.MAPMENU = {
 /************************************************************************
  設定：メニュー：試験
  ************************************************************************/
-CONFIG.TESTMENU = {
+CONFIG.TRYMENU = {
 	title : '試験'
 };
 
@@ -16783,9 +16783,12 @@ GSI.Utils.infoToLayer = function( info, noFinishMove )
  L.Class
  - GSI.MapMenu（地図、機能メニュー）
  ************************************************************************/
-
 		// 試験メニュー
+		var ctrlSetting = this._queryParams.getControlSetting();
+		var viewSetting = this._queryParams.getViewSetting();
+		var map = this._mainMap.getMap();
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
+			
 			visible : ctrlSetting.testMenu.visible,
 			position : 'left',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
@@ -16809,7 +16812,7 @@ GSI.Utils.infoToLayer = function( info, noFinishMove )
 					this._geoLocation.getLocation();
 			}, this )
 		});
-		
+
 
 GSI.MapMenuList = [];
 
@@ -28813,6 +28816,24 @@ GSI.MapManager = L.Class.extend( {
 		);
 		
 	},
+		// 試験メニュー
+		this._tryMenu = new GSI.TryMenu(
+			this._gsimaps,
+			this._map
+			, CONFIG.TRYMENU
+			, {
+				visible         : ctrlSetting.testMenu.visible
+				, rootEffect      : CONFIG.EFFECTS.MENU.ROOT
+				, otherEffect     : CONFIG.EFFECTS.MENU.OTHER
+				, onMenuItemClick : L.bind(function(id)
+				{
+					this._viewListDialog.show();
+					this._layerTreeDialog.show();
+				}, this )
+			}
+		);
+		
+	},
 	
 	// フッター等初期化
 	initializeControls : function(queryParams, header, ctrlSetting, viewSetting)
@@ -29431,6 +29452,32 @@ GSI.GSIMaps = L.Class.extend( {
 		},this );
 		this._onoffObjects[ CONFIG.PARAMETERNAMES.FOOTER ] = { obj : this._footerManager    , setter : 'setVisible', getter  : 'getVisible' };
 
+		// 試験メニュー
+/*		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
+			visible : ctrlSetting.testMenu.visible,
+			position : 'left',
+			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
+			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
+			getCheckState : L.bind(function( id, defaultState )
+			{
+				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
+				else defaultState;
+			},this),
+			onCheckItemClick :  L.bind(function( id, checked )
+			{
+				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
+			},this),
+
+			onMenuItemClick :  L.bind(function( id )
+			{
+				var dialogManager = this._mainMap._dialogManager;
+				var map = this._mainMap.getMap();
+				var windowSize = this._mainMap._dialogManager.getScreenSize();
+					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
+					this._geoLocation.getLocation();
+			}, this )
+		});
+*/
 
 		// 現在地メニュー
 		this._geolMenu = new GSI.MapMenu(this, map, CONFIG.GEOLMENU, {
