@@ -29403,7 +29403,7 @@ GSI.GSIMaps = L.Class.extend( {
 		},this );
 		this._onoffObjects[ CONFIG.PARAMETERNAMES.FOOTER ] = { obj : this._footerManager    , setter : 'setVisible', getter  : 'getVisible' };
 
-		// 現在地メニュー
+		// 試験メニュー
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
 			position : 'right',
@@ -29424,33 +29424,7 @@ GSI.GSIMaps = L.Class.extend( {
 				var dialogManager = this._mainMap._dialogManager;
 				var map = this._mainMap.getMap();
 				var windowSize = this._mainMap._dialogManager.getScreenSize();
-					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
-					this._geoLocation.getLocation();
-			}, this )
-		});
 
-
-		// 試験メニュー
-		this._geolMenu = new GSI.MapMenu(this, map, CONFIG.GEOLMENU, {
-			visible : ctrlSetting.geolMenu.visible,
-			position : 'left',
-			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
-			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
-			getCheckState : L.bind(function( id, defaultState )
-			{
-				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
-				else defaultState;
-			},this),
-			onCheckItemClick :  L.bind(function( id, checked )
-			{
-				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
-			},this),
-
-			onMenuItemClick :  L.bind(function( id )
-			{
-				var dialogManager = this._mainMap._dialogManager;
-				var map = this._mainMap.getMap();
-				var windowSize = this._mainMap._dialogManager.getScreenSize();
 					var xhr = new XMLHttpRequest();
 					xhr.open('GET', '../sample1.geojson', false);
 					xhr.send(null);
@@ -29483,6 +29457,33 @@ GSI.GSIMaps = L.Class.extend( {
 					    layer.bindPopup(popup_properties(feature.properties));
 					  }
 					});
+			}, this )
+		});
+
+
+		// 現在地メニュー
+		this._geolMenu = new GSI.MapMenu(this, map, CONFIG.GEOLMENU, {
+			visible : ctrlSetting.geolMenu.visible,
+			position : 'left',
+			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
+			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
+			getCheckState : L.bind(function( id, defaultState )
+			{
+				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
+				else defaultState;
+			},this),
+			onCheckItemClick :  L.bind(function( id, checked )
+			{
+				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
+			},this),
+
+			onMenuItemClick :  L.bind(function( id )
+			{
+				var dialogManager = this._mainMap._dialogManager;
+				var map = this._mainMap.getMap();
+				var windowSize = this._mainMap._dialogManager.getScreenSize();
+					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
+					this._geoLocation.getLocation();
 			}, this )
 		});
 		
