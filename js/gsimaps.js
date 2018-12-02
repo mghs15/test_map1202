@@ -29406,6 +29406,7 @@ GSI.GSIMaps = L.Class.extend( {
 
 
 		// 試験メニュー
+		var test_show = false;
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
 			position : 'right',
@@ -29421,7 +29422,6 @@ GSI.GSIMaps = L.Class.extend( {
 				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
 			},this),
 			
-			var test_show = false,
 			
 			//ここから（試験）
 			onMenuItemClick :  L.bind(function( id ) 
