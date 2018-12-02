@@ -44505,3 +44505,44 @@ $(document).ready( function(){
 	// test
 	
 } );
+
+<script>
+// スタイルつき GeoJSON読み込み
+// 「./sample1.geojson」の部分を適宜変更してください。
+var xhr = new XMLHttpRequest();
+xhr.open('GET', './sample1.geojson', false);
+xhr.send(null);
+var sampledata = JSON.parse(xhr.responseText);
+var sampleLayer = L.geoJson(sampledata, {
+  pointToLayer: function (feature, latlng) {
+    var s = geojson_style(feature.properties);
+    if(feature.properties['_markerType']=='Icon'){
+      var myIcon = L.icon(s);
+      return L.marker(latlng, {icon: myIcon});
+    }
+    if(feature.properties['_markerType']=='DivIcon'){
+      var myIcon = L.divIcon(s);
+      return L.marker(latlng, {icon: myIcon});
+    }
+    if(feature.properties['_markerType']=='Circle'){
+      return L.circle(latlng,feature.properties['_radius'],s);
+    }
+    if(feature.properties['_markerType']=='CircleMarker'){
+      return L.circleMarker(latlng,s);
+    }
+  },
+  style: function (feature) {
+    if(!feature.properties['_markerType']){
+      var s = geojson_style(feature.properties);
+      return s;
+    }
+  },
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(popup_properties(feature.properties));
+  }
+});
+
+L.control.scale({imperial: false}).addTo(map);
+var overlays = {'サンプル': sampleLayer };
+L.control.layers(null, overlays,{position:'topright',collapsed:false}).addTo(this.map);
+</script>
