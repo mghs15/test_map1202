@@ -28869,7 +28869,7 @@ GSI.MapManager = L.Class.extend( {
 	    );
 	    
 	    this._footer.setViewListDialog( this._viewListDialog );
-	},geo
+	},
 	
 	// ベースマップ初期化
 	initializeBaseLayer : function(baseMap,baseMapGrayScale)
