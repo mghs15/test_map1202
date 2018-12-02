@@ -29424,7 +29424,7 @@ GSI.GSIMaps = L.Class.extend( {
 			//ここから（試験）
 			onMenuItemClick :  L.bind(function( id ) 
 			{
-			$.getJSON("sample2.geojson", function (data) {
+			$.getJSON("sample1.geojson", function (data) {
 			    L.geoJson(data).addTo(map);
 			});
 			/*
