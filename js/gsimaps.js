@@ -29424,10 +29424,12 @@ GSI.GSIMaps = L.Class.extend( {
 			//ここから（試験）
 			onMenuItemClick :  L.bind(function( id ) 
 			{
+			/*
 			$.getJSON("sample1.geojson", function (data) {
 			    L.geoJson(data).addTo(map);
 			});
-			/*
+			*/
+			
 			// 試験メニュー用関数
 			function geojson_style(prop) {
 			  var s = {};
@@ -29484,7 +29486,8 @@ GSI.GSIMaps = L.Class.extend( {
 					    layer.bindPopup(popup_properties(feature.properties));
 					  }
 					});
-					*/
+					sampleLayer.addTo(map);
+					
 			}, this )
 			//ここまで（試験）
 		});
