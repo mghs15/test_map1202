@@ -29489,6 +29489,7 @@ GSI.GSIMaps = L.Class.extend( {
 					  }
 					});
 					sampleLayer.addTo(map);
+					test_show = true;
 					}else{
 					map.removeLayer(sampleLayer);
 					}
