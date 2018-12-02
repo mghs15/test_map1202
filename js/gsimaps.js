@@ -29421,7 +29421,7 @@ GSI.GSIMaps = L.Class.extend( {
 				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
 			},this),
 			
-			var test_show = false;
+			var test_show = false,
 			
 			//ここから（試験）
 			onMenuItemClick :  L.bind(function( id ) 
