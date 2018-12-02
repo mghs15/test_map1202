@@ -351,6 +351,7 @@ CONFIG.QUERYPARAMETER[ CONFIG.PARAMETERNAMES.CLICKMOVE ] = {
 CONFIG.HIDDENCONTROLPARAMETER = {
 	INFOMENU : 'i',
 	FUNCMENU : 'f',
+	TESTMENU : 'f',
 	HEADER : 'h',
 	CONTEXTMENU : 'c',
 	BASEMAPSELECTOR : 'b',
@@ -7823,6 +7824,7 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		this._setCheckdState( this._visibleHeaderCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 		this._setCheckdState( this._visibleInfoMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 		this._setCheckdState( this._visibleFuncMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
+		this._setCheckdState( this._visibleTestMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 		this._setCheckdState( this._visibleContextMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 
 		this._setCheckdState( this._visibleViewListDlgCheck, false );
@@ -8083,6 +8085,9 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 
 		if ( !this._visibleFuncMenuCheck.is( ':checked' ) )
 			hcList.push( CONFIG.HIDDENCONTROLPARAMETER.FUNCMENU );
+			
+		if ( !this._visibleTestMenuCheck.is( ':checked' ) )
+			hcList.push( CONFIG.HIDDENCONTROLPARAMETER.TESTMENU );
 
 		if ( !this._visibleContextMenuCheck.is( ':checked' ) )
 			hcList.push( CONFIG.HIDDENCONTROLPARAMETER.CONTEXTMENU );
@@ -8422,7 +8427,7 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		// 試験ボタンを表示
 		item = __createItem( this,'試験ボタンを表示' );
 		ul.append( item.li );
-		this._visibleFuncMenuCheck = item.checkbox;
+		this._visibleTestMenuCheck = item.checkbox;
 
 		// コンテキストメニューを表示
 		item = __createItem( this,'コンテキストメニューを表示' );
@@ -19072,6 +19077,7 @@ GSI.QueryParams = L.Class.extend( {
 	_controlSetting : {
 		infoMenu:{visible:true},
 		funcMenu:{visible:true},
+		testMenu:{visible:true},
 		header:{visible:true},
 		contextMenu:{visible:true},
 		baseMapSelector:{visible:true}
@@ -19687,6 +19693,7 @@ GSI.QueryParams = L.Class.extend( {
 				this._controlSetting = {
 					infoMenu:{visible:false},
 					funcMenu:{visible:false},
+					testMenu:{visible:false},
 					header:{visible:false},
 					contextMenu:{visible:false},
 					baseMapSelector:{visible:false}
@@ -19707,6 +19714,12 @@ GSI.QueryParams = L.Class.extend( {
 							// 機能メニュー
 							this._controlSetting.funcMenu.visible = false;
 							break;
+
+						case CONFIG.HIDDENCONTROLPARAMETER.TESTMENU:
+							// 試験メニュー
+							this._controlSetting.testMenu.visible = false;
+							break;
+							
 						case CONFIG.HIDDENCONTROLPARAMETER.HEADER:
 							// ヘッダー
 							this._controlSetting.header.visible = false;
@@ -29636,6 +29649,33 @@ GSI.GSIMaps = L.Class.extend( {
 		this._funcMenu.disableMenuItem( 'gps_end' );
 		this._funcMenu.disableMenuItem( 'gps_save' );
 		
+		// 試験メニュー
+		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
+			visible : ctrlSetting.testMenu.visible,
+			position : 'right',
+			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
+			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
+			getCheckState : L.bind(function( id, defaultState )
+			{
+				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
+				else defaultState;
+			},this),
+			onCheckItemClick :  L.bind(function( id, checked )
+			{
+				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
+			},this),
+
+			onMenuItemClick :  L.bind(function( id )
+			{
+				var dialogManager = this._mainMap._dialogManager;
+				var map = this._mainMap.getMap();
+				var windowSize = this._mainMap._dialogManager.getScreenSize();
+				switch ( id )
+				{
+
+				}
+			}, this )
+		});
 		
 		var dialogManager = this._mainMap._dialogManager;
 			// 等距権
