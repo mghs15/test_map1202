@@ -351,7 +351,8 @@ CONFIG.QUERYPARAMETER[ CONFIG.PARAMETERNAMES.CLICKMOVE ] = {
 CONFIG.HIDDENCONTROLPARAMETER = {
 	INFOMENU : 'i',
 	FUNCMENU : 'f',
-	TESTMENU : 'f',
+	TESTMENU : 't',
+	GEOLMENU : 'g',
 	HEADER : 'h',
 	CONTEXTMENU : 'c',
 	BASEMAPSELECTOR : 'b',
@@ -456,10 +457,17 @@ CONFIG.MAPMENU = {
 };
 
 /************************************************************************
- 試験：メニュー：情報
+ 設定：メニュー：試験
  ************************************************************************/
 CONFIG.TESTMENU = {
 	title : '試験'
+};
+
+/************************************************************************
+ 設定：メニュー：現在地
+ ************************************************************************/
+CONFIG.GEOLMENU = {
+	title : '現在地'
 };
 
 /************************************************************************
@@ -7825,6 +7833,7 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		this._setCheckdState( this._visibleInfoMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 		this._setCheckdState( this._visibleFuncMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 		this._setCheckdState( this._visibleTestMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
+		this._setCheckdState( this._visibleGeolMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 		this._setCheckdState( this._visibleContextMenuCheck, ( mode != GSI.ShareDialog.MODE.BUILTIN ) );
 
 		this._setCheckdState( this._visibleViewListDlgCheck, false );
@@ -8086,6 +8095,9 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		if ( !this._visibleFuncMenuCheck.is( ':checked' ) )
 			hcList.push( CONFIG.HIDDENCONTROLPARAMETER.FUNCMENU );
 			
+		if ( !this._visibleGeolMenuCheck.is( ':checked' ) )
+			hcList.push( CONFIG.HIDDENCONTROLPARAMETER.GEOLMENU );
+
 		if ( !this._visibleTestMenuCheck.is( ':checked' ) )
 			hcList.push( CONFIG.HIDDENCONTROLPARAMETER.TESTMENU );
 
@@ -8423,6 +8435,11 @@ GSI.ShareDialog = GSI.Dialog.extend( {
 		item = __createItem( this,'機能ボタンを表示' );
 		ul.append( item.li );
 		this._visibleFuncMenuCheck = item.checkbox;
+
+		// 現在地ボタンを表示
+		item = __createItem( this,'現在地ボタンを表示' );
+		ul.append( item.li );
+		this._visibleGeolMenuCheck = item.checkbox;
 
 		// 試験ボタンを表示
 		item = __createItem( this,'試験ボタンを表示' );
@@ -19077,6 +19094,7 @@ GSI.QueryParams = L.Class.extend( {
 	_controlSetting : {
 		infoMenu:{visible:true},
 		funcMenu:{visible:true},
+		geolMenu:{visible:true},
 		testMenu:{visible:true},
 		header:{visible:true},
 		contextMenu:{visible:true},
@@ -19693,6 +19711,7 @@ GSI.QueryParams = L.Class.extend( {
 				this._controlSetting = {
 					infoMenu:{visible:false},
 					funcMenu:{visible:false},
+					geolMenu:{visible:false},
 					testMenu:{visible:false},
 					header:{visible:false},
 					contextMenu:{visible:false},
@@ -19713,6 +19732,11 @@ GSI.QueryParams = L.Class.extend( {
 						case CONFIG.HIDDENCONTROLPARAMETER.FUNCMENU:
 							// 機能メニュー
 							this._controlSetting.funcMenu.visible = false;
+							break;
+
+						case CONFIG.HIDDENCONTROLPARAMETER.GEOLMENU:
+							// 現在地メニュー
+							this._controlSetting.geolMenu.visible = false;
 							break;
 
 						case CONFIG.HIDDENCONTROLPARAMETER.TESTMENU:
@@ -29378,10 +29402,37 @@ GSI.GSIMaps = L.Class.extend( {
 			return this._mainMap._map._footer.getVisible();
 		},this );
 		this._onoffObjects[ CONFIG.PARAMETERNAMES.FOOTER ] = { obj : this._footerManager    , setter : 'setVisible', getter  : 'getVisible' };
-	   
+
+
 		// 試験メニュー
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
+			position : 'left',
+			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
+			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
+			getCheckState : L.bind(function( id, defaultState )
+			{
+				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
+				else defaultState;
+			},this),
+			onCheckItemClick :  L.bind(function( id, checked )
+			{
+				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
+			},this),
+
+			onMenuItemClick :  L.bind(function( id )
+			{
+				var dialogManager = this._mainMap._dialogManager;
+				var map = this._mainMap.getMap();
+				var windowSize = this._mainMap._dialogManager.getScreenSize();
+					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
+					this._geoLocation.getLocation();
+			}, this )
+		});
+
+		// 現在地メニュー
+		this._geolMenu = new GSI.MapMenu(this, map, CONFIG.GEOLMENU, {
+			visible : ctrlSetting.geolMenu.visible,
 			position : 'right',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
 			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
