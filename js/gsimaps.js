@@ -459,7 +459,7 @@ CONFIG.MAPMENU = {
 /************************************************************************
  設定：メニュー：試験
  ************************************************************************/
-CONFIG.TRYMENU = {
+CONFIG.TESTMENU = {
 	title : '試験'
 };
 
@@ -28805,24 +28805,6 @@ GSI.MapManager = L.Class.extend( {
 			, CONFIG.MAPMENU
 			, {
 				visible         : ctrlSetting.infoMenu.visible
-				, rootEffect      : CONFIG.EFFECTS.MENU.ROOT
-				, otherEffect     : CONFIG.EFFECTS.MENU.OTHER
-				, onMenuItemClick : L.bind(function(id)
-				{
-					this._viewListDialog.show();
-					this._layerTreeDialog.show();
-				}, this )
-			}
-		);
-		
-	},
-		// 試験メニュー
-		this._tryMenu = new GSI.TryMenu(
-			this._gsimaps,
-			this._map
-			, CONFIG.TRYMENU
-			, {
-				visible         : ctrlSetting.testMenu.visible
 				, rootEffect      : CONFIG.EFFECTS.MENU.ROOT
 				, otherEffect     : CONFIG.EFFECTS.MENU.OTHER
 				, onMenuItemClick : L.bind(function(id)
