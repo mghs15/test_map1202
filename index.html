@@ -91,6 +91,7 @@
     <div id="map"></div>
     
     
+<script>
 // スタイルつき GeoJSON読み込み
 // 「./sample1.geojson」の部分を適宜変更してください。
 var xhr = new XMLHttpRequest();
@@ -125,6 +126,11 @@ var sampleLayer = L.geoJson(sampledata, {
     layer.bindPopup(popup_properties(feature.properties));
   }
 });
+
+L.control.scale({imperial: false}).addTo(map);
+var overlays = {'サンプル': sampleLayer };
+L.control.layers(null, overlays,{position:'topright',collapsed:false}).addTo(map);
+</script>
 
 
     <div class="gsi_footer gsi_footer_template">
