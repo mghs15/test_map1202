@@ -29403,6 +29403,26 @@ GSI.GSIMaps = L.Class.extend( {
 		},this );
 		this._onoffObjects[ CONFIG.PARAMETERNAMES.FOOTER ] = { obj : this._footerManager    , setter : 'setVisible', getter  : 'getVisible' };
 
+			function geojson_style(prop) {
+			  var s = {};
+			  for(name in prop) {
+			    if(name.match(/^_/) && !name.match(/_markerType/)){
+			      if( prop['_markerType']=='Circle' && name =='_radius'){continue;}
+			      s[name.substr(1)]=prop[name];
+			    }
+			  }
+			  return s;
+			};
+			function popup_properties(prop) {
+			  var s = ''
+			  for(name in prop) {
+			    if(!name.match(/^_/)){
+			      s += name + "：" + prop[name] + "<br>";
+			    }
+			  }
+			  return s;
+			};
+
 		// 試験メニュー
 		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
 			visible : ctrlSetting.testMenu.visible,
@@ -29419,25 +29439,6 @@ GSI.GSIMaps = L.Class.extend( {
 				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
 			},this),
 
-			function geojson_style(prop) {
-			  var s = {};
-			  for(name in prop) {
-			    if(name.match(/^_/) && !name.match(/_markerType/)){
-			      if( prop['_markerType']=='Circle' && name =='_radius'){continue;}
-			      s[name.substr(1)]=prop[name];
-			    }
-			  }
-			  return s;
-			}
-			function popup_properties(prop) {
-			  var s = ''
-			  for(name in prop) {
-			    if(!name.match(/^_/)){
-			      s += name + "：" + prop[name] + "<br>";
-			    }
-			  }
-			  return s;
-			}
 			
 			onMenuItemClick :  L.bind(function( id )
 			{
