@@ -29379,6 +29379,33 @@ GSI.GSIMaps = L.Class.extend( {
 		},this );
 		this._onoffObjects[ CONFIG.PARAMETERNAMES.FOOTER ] = { obj : this._footerManager    , setter : 'setVisible', getter  : 'getVisible' };
 	   
+		// 試験メニュー
+		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
+			visible : ctrlSetting.testMenu.visible,
+			position : 'topright',
+			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
+			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
+			getCheckState : L.bind(function( id, defaultState )
+			{
+				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
+				else defaultState;
+			},this),
+			onCheckItemClick :  L.bind(function( id, checked )
+			{
+				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
+			},this),
+
+			onMenuItemClick :  L.bind(function( id )
+			{
+				var dialogManager = this._mainMap._dialogManager;
+				var map = this._mainMap.getMap();
+				var windowSize = this._mainMap._dialogManager.getScreenSize();
+					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
+					this._geoLocation.getLocation();
+			}, this )
+		});
+		
+
 		// 機能メニュー
 		this._funcMenu = new GSI.MapMenu(this, map, CONFIG.FUNCMENU, {
 			visible : ctrlSetting.funcMenu.visible,
@@ -29649,31 +29676,6 @@ GSI.GSIMaps = L.Class.extend( {
 		this._funcMenu.disableMenuItem( 'gps_end' );
 		this._funcMenu.disableMenuItem( 'gps_save' );
 		
-		// 試験メニュー
-		this._testMenu = new GSI.MapMenu(this, map, CONFIG.TESTMENU, {
-			visible : ctrlSetting.testMenu.visible,
-			position : 'topright',
-			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
-			otherEffect : CONFIG.EFFECTS.MENU.OTHER,
-			getCheckState : L.bind(function( id, defaultState )
-			{
-				if ( this._onoffObjects[ id ] ) return this._onoffObjects[ id]['obj'][this._onoffObjects[id]['getter']]();
-				else defaultState;
-			},this),
-			onCheckItemClick :  L.bind(function( id, checked )
-			{
-				if ( this._onoffObjects[ id ] ) this._onoffObjects[ id]['obj'][this._onoffObjects[id]['setter']]( checked );
-			},this),
-
-			onMenuItemClick :  L.bind(function( id )
-			{
-				var dialogManager = this._mainMap._dialogManager;
-				var map = this._mainMap.getMap();
-				var windowSize = this._mainMap._dialogManager.getScreenSize();
-					if (!this._geoLocation) this._geoLocation = new GSI.GeoLocation(map);
-					this._geoLocation.getLocation();
-			}, this )
-		});
 		
 		var dialogManager = this._mainMap._dialogManager;
 			// 等距権
