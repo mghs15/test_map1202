@@ -72,7 +72,7 @@
       "id": "osm",
       "title": "OpenStreetMap",
       "iconUrl": "",
-      "url": "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png\"",
+      "url": "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
       "subdomains": "",
       "attribution": "",
       "errorTileUrl": "",
