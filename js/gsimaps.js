@@ -29434,7 +29434,7 @@ GSI.GSIMaps = L.Class.extend( {
 			*/
 			
 			// 試験メニュー用関数
-			function geojson_style(prop) {
+			function geojson_style_mg(prop) {
 			  var s = {};
 			  for(name in prop) {
 			    if(name.match(/^_/) && !name.match(/_markerType/)){
@@ -29444,7 +29444,7 @@ GSI.GSIMaps = L.Class.extend( {
 			  }
 			  return s;
 			};
-			function popup_properties(prop) {
+			function popup_properties_mg(prop) {
 			  var s = ''
 			  for(name in prop) {
 			    if(!name.match(/^_/)){
@@ -29482,12 +29482,12 @@ GSI.GSIMaps = L.Class.extend( {
 					  },
 					  style: function (feature) {
 					    if(!feature.properties['_markerType']){
-					      var s = geojson_style(feature.properties);
+					      var s = geojson_style_mg(feature.properties);
 					      return s;
 					    }
 					  },
 					  onEachFeature: function (feature, layer) {
-					    layer.bindPopup(popup_properties(feature.properties));
+					    layer.bindPopup(popup_properties_mg(feature.properties));
 					  }
 					});
 					sampleLayer.addTo(map);
