@@ -29530,7 +29530,7 @@ GSI.GSIMaps = L.Class.extend( {
 		
 
 		// 機能メニュー
-		this._funcMenu = new GSI.MapMenu(this, map, CONFIG.FUNCMENU, {
+/*		this._funcMenu = new GSI.MapMenu(this, map, CONFIG.FUNCMENU, {
 			visible : ctrlSetting.funcMenu.visible,
 			position : 'right',
 			rootEffect : CONFIG.EFFECTS.MENU.ROOT,
@@ -29905,7 +29905,7 @@ GSI.GSIMaps = L.Class.extend( {
 
 		$("#title_facebook").click( function() {
 			GSI.SHARE.showFacebook();
-		} );
+		} );*/
 		
 	}
 		
